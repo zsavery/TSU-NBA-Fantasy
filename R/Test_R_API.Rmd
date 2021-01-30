@@ -8,9 +8,20 @@ This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute
 Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
 
 ```{r}
-if(!require("pacman")) install.packages("pacman") # install pacman if needed
+# Working with nbaststR ########################################################
+# nbastatR documentation: https://www.rdocumentation.org/packages/nbastatR/versions/0.1.110202031
+# nbastatR github: https://github.com/abresler/nbastatR
 
+## import libraries ============================================================
+if(!require("pacman")) install.packages("pacman") # install pacman if needed
 pacman::p_load('devtools', 'BiocManager', 'tidyverse', 'nbastatR', 'future' )
+# ?devtools
+# ?BiocManager
+# ?tidyverse 
+# ?pacman
+# ?nbastatR
+# ?future
+
 
 
 ```
@@ -19,12 +30,13 @@ pacman::p_load('devtools', 'BiocManager', 'tidyverse', 'nbastatR', 'future' )
 # library(devtools)
 # devtools::install_github("abresler/nbastatR", force = TRUE)
 
-# plan(multiprocess) 
+plan(multicore)
 # df_game_logs_2019_2020 <- game_logs(seasons = 2019:2020)
 
 
 ```
 ```{r}
+### Create NBA game log for single year ----------------------------------------
 create_single_year_game_log.function <- function(){
   log.year <- readline(prompt = " Enter year: ")
   log.year = as.numeric(log.year)
@@ -38,8 +50,27 @@ create_single_year_game_log.function()
 ```
 
 ```{r}
+### Create NBA team dataframe --------------------------------------------------
+create_teams.function <- function(){
+  df_teams <- nba_teams() %>%
+    select(nameTeam, idTeam, cityTeam, idConference, isNonNBATeam) %>% # Select name of fields
+    filter(isNonNBATeam  == 0) %>% # filter by teams that are in the NBA (not global)
+    arrange(idConference, nameTeam) # sort ny conference then team name
+}
 
+
+create_teams.function()
+
+# team_season_
 ```
+
+```{r}
+## Cleanup =====================================================================
+rm(list = ls())
+
+cat("\014")
+```
+
 
 
 Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
