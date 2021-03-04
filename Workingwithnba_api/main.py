@@ -65,15 +65,40 @@ from nba_api.stats.endpoints import playergamelogs
 #
 # # get_player_stats_id()
 
-# player_rank = playerfantasyprofile.PlayerFantasyProfile('203500').get_data_frames()
-# print(player_rank)
+# %%
 
-# find the leader of the selected team w/ the team_id of each stat
-# leaders_franchise = franchiseleaders.FranchiseLeaders(1610612739).get_data_frames()
-# print(leaders_franchise)
+
+def game_stats(id, seas):
+    player_game_logs_df = playergamelogs.PlayerGameLogs(player_id_nullable=id, season_nullable=seas,
+                                                        last_n_games_nullable=5).get_data_frames()
+
+    new_stats = pd.DataFrame([[id, player_game_logs_df[0].PTS.mean(), player_game_logs_df[0].AST.mean(),
+                               player_game_logs_df[0].REB.mean(), player_game_logs_df[0].BLK.mean(),
+                               player_game_logs_df[0].STL.mean(), player_game_logs_df[0].TOV.mean()]],
+                             columns=["player_id", "PTS", "AST", "REB", "BLK", "STL", "TOV"])
+    new_row = new_stats.to_dict()
+
+    return new_row
+
+
 
 # %%
-# create a dataframe
+def getplayerids():
+    # Get dict of all players info -> [id, full_name, first_name, last_name, is_active]
+    players_dict = players.get_active_players()
+    return players_dict
+
+
+player_dict = getplayerids()
+# %%
+player_ids = [x['id'] for x in player_dict]
+
+
+# %%
+
+
+# %%
+
 
 def get_season():
     current_day = datetime.now().day
@@ -90,59 +115,57 @@ def get_season():
 
 
 # %%
-def game_stats(id, seas):
-    player_game_logs_df = playergamelogs.PlayerGameLogs(player_id_nullable=id, season_nullable=seas,
-                                                        last_n_games_nullable=5).get_data_frames()
+season = get_season()
 
-    new_stats = pd.DataFrame([[id, player_game_logs_df[0].PTS.mean(), player_game_logs_df[0].AST.mean(),
-                               player_game_logs_df[0].REB.mean(), player_game_logs_df[0].BLK.mean(),
-                               player_game_logs_df[0].STL.mean(), player_game_logs_df[0].TOV.mean()]],
-                             columns=["player_id", "PTS", "AST", "REB", "BLK", "STL", "TOV"])
-
-    return new_stats
+# %%
+# TODO: fix this function
+#       Funtion Error
 
 
-# x = game_stats(2544, "2020-21")
-# df_stats = df_stats.append(x, ignore_index=True)
-# print(df_stats)
-
-
-# x = game_stats(101108, "2020-21")
-# df_stats = df_stats.append(x, ignore_index=True)
-# print(df_stats)
+# def func(ids, seas):
+#     # Temp dataframe
+#     stats = pd.DataFrame(columns=['player_id', 'PTS', 'AST', 'REB', 'BLK', 'STL', 'TOV'])
 #
-# df_stats = pd.DataFrame(columns=['player_id', 'PTS', 'AST', 'REB', 'BLK', 'STL', 'TOV'])
+#     for i in ids:
+#         x = game_stats(i, seas)
+#         stats = stats.append(x, ignore_index=True)
+#
+#     return stats
+
+# df_stats = func(player_ids, season)
 # print(df_stats)
+# %%
+
+# y = game_stats(player_ids[12], season)
+# df_stats = df_stats.append(y, ignore_index=True)
+
 # %%
 
 df_stats = pd.DataFrame(columns=['player_id', 'PTS', 'AST', 'REB', 'BLK', 'STL', 'TOV'])
 
-# TODO: fix this function
-# def func():
-#     # Get dict of all players info -> [id, full_name, first_name, last_name, is_active]
-#     players_dict = players.get_players()
-#     # season = get_season()
-#
-#     # Temp dataframe
-#     # stats = pd.DataFrame(columns=['player_id', 'PTS', 'AST', 'REB', 'BLK', 'STL', 'TOV'])
-#
-#     # Change dict of all players into a dataframe using pandas
-#     df_players = pd.DataFrame.from_dict(players_dict)
-#
-#     # Filter df_players by only active players
-#     df_active_players = pd.DataFrame(df_players.query('is_active == True'))
-#
-#     # for i in df_active_players.id:
-#     #     x = game_stats(int(i), season)
-#     #     stats = stats.append(x, ignore_index=True)
-#
-#     return df_active_players
-#
-#
-# season = get_season()
-# active_players = func()
-# for i in active_players.id:
-#     x = game_stats(int(i), season)
-#     df_stats = df_stats.append(x, ignore_index=True)
-# df_stats = func()
-# print(df_stats)
+# %%
+
+# TODO: Fix funtion below
+# ErrorL
+# raise ReadTimeout(e, request=request)
+# requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='stats.nba.com', port=443): Read timed out. (read timeout=30)
+count = 0
+limit = 9
+while limit < len(player_ids):
+    for i in player_ids:
+        if count > limit:
+            break
+        else:
+            x = game_stats(i, season)
+            df_stats = df_stats.append(x, ignore_index=True)
+            count += 1
+    if (len(player_ids) - 9) > 0:
+        limit += 9
+    elif len(player_ids) == limit:
+        break
+    else:
+        limit += (len(player_ids) - limit)
+
+
+
+
