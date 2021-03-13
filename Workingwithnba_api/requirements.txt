@@ -1,4 +1,0 @@
-!pip install nba_api
-!pip install pandas
-
-pandas~=1.2.2

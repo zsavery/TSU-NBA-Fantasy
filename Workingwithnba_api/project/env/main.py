@@ -5,11 +5,12 @@ import pandas as pd
 from datetime import datetime
 # Import players from nba_api stats.static
 from nba_api.stats.static import players
+from nba_api.stats.endpoints import playergamelogs
 # from nba_api.stats.endpoints import playercareerstats
 # from nba_api.stats.endpoints import playerfantasyprofile
 # from nba_api.stats.endpoints import franchiseleaders
 # from nba_api.stats.endpoints import leaderstiles
-from nba_api.stats.endpoints import playergamelogs
+
 # from nba_api.stats.endpoints import playergamelog
 
 # %%
@@ -70,7 +71,7 @@ from nba_api.stats.endpoints import playergamelogs
 
 def game_stats(id, seas):
     player_game_logs_df = playergamelogs.PlayerGameLogs(player_id_nullable=id, season_nullable=seas,
-                                                        last_n_games_nullable=5).get_data_frames()
+                                                        last_n_games_nullable=5, timeout=2000).get_data_frames()
 
     new_stats = pd.DataFrame([[id, player_game_logs_df[0].PTS.mean(), player_game_logs_df[0].AST.mean(),
                                player_game_logs_df[0].REB.mean(), player_game_logs_df[0].BLK.mean(),
@@ -169,3 +170,4 @@ while limit < len(player_ids):
 
 
 
+# %%
