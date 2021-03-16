@@ -1,70 +1,24 @@
 # %%
-# Import pandas
 
-import pandas as pd
-from datetime import datetime
-# Import players from nba_api stats.static
+import pandas as pd # Import pandas
+import requests     # Improt requests
+
+# Import players from nba_api.stats
 from nba_api.stats.static import players
 from nba_api.stats.endpoints import playergamelogs
-# from nba_api.stats.endpoints import playercareerstats
+
+# File imports
+import get_player # 
+import seasons
+
+# Comment imports
 # from nba_api.stats.endpoints import playerfantasyprofile
 # from nba_api.stats.endpoints import franchiseleaders
 # from nba_api.stats.endpoints import leaderstiles
 
 # from nba_api.stats.endpoints import playergamelog
 
-# %%
 
-# def get_player_stats_name(player_name):
-#
-#     current_day = datetime.now().day
-#     current_month = datetime.now().month
-#     current_year = datetime.now().year
-#
-#     if current_month == 12 and current_day >= 22:
-#         season = str(current_year) + '-' + str(current_year + 1)[2:]
-#     else:
-#         season = str(current_year - 1) + '-' + str(current_year)[2:]
-#     # print(season)
-#
-#     nba_players = players.get_players()
-#     sel_player = [player for player in nba_players if player['full_name'] == player_name][0]
-#     career_stats = playercareerstats.PlayerCareerStats(player_id=sel_player['id'])
-#     df_career_stats = pd.DataFrame(career_stats.get_data_frames()[0])
-#     # print(df_career_stats)
-#     # pd.set_option('display.max_columns', None)
-#     df_career_stats =  df_career_stats.drop(['LEAGUE_ID', 'PLAYER_AGE', 'TEAM_ABBREVIATION'],1)
-#     print(df_career_stats.tail(1))
-#     df_season_stats = df_career_stats.query('SEASON_ID == "season"')
-#     # print(df_season_stats)
-#
-#
-# # get_player_stats_name('LeBron James')
-
-
-# def get_player_stats_id(id):
-#
-#     current_day = datetime.now().day
-#     current_month = datetime.now().month
-#     current_year = datetime.now().year
-#
-#     if current_month == 12 and current_day >= 22:
-#         season = str(current_year) + '-' + str(current_year + 1)[2:]
-#     else:
-#         season = str(current_year - 1) + '-' + str(current_year)[2:]
-#     # print(season)
-#
-#     career_stats = playercareerstats.PlayerCareerStats(player_id=id)
-#     df_career_stats = pd.DataFrame(career_stats.get_data_frames()[0])
-#     # print(df_career_stats)
-#     # pd.set_option('display.max_columns', None)
-#     df_career_stats =  df_career_stats.drop(['LEAGUE_ID', 'PLAYER_AGE', 'TEAM_ABBREVIATION'],1)
-#     print(df_career_stats.tail(1))
-#     df_season_stats = df_career_stats.query('SEASON_ID == "season"')
-#     # print(df_season_stats)
-#
-#
-# # get_player_stats_id()
 
 # %%
 
@@ -101,26 +55,25 @@ player_ids = [x['id'] for x in player_dict]
 # %%
 
 
-def get_season():
-    current_day = datetime.now().day
-    current_month = datetime.now().month
-    current_year = datetime.now().year
-    season = ""
+# def get_season():
+#     current_day = datetime.now().day
+#     current_month = datetime.now().month
+#     current_year = datetime.now().year
+#     season = ""
 
-    if current_month == 12 and current_day >= 22:
-        season = str(current_year) + '-' + str(current_year + 1)[2:]
-    else:
-        season = str(current_year - 1) + '-' + str(current_year)[2:]
+#     if current_month == 12 and current_day >= 22:
+#         season = str(current_year) + '-' + str(current_year + 1)[2:]
+#     else:
+#         season = str(current_year - 1) + '-' + str(current_year)[2:]
 
-    return season
+#     return season
 
 
 # %%
-season = get_season()
-
+season = seasons.get_season()
 # %%
 # TODO: fix this function
-#       Funtion Error
+#       Function Error
 
 
 # def func(ids, seas):
@@ -146,7 +99,7 @@ df_stats = pd.DataFrame(columns=['player_id', 'PTS', 'AST', 'REB', 'BLK', 'STL',
 
 # %%
 
-# TODO: Fix funtion below
+# TODO: Fix function below
 # ErrorL
 # raise ReadTimeout(e, request=request)
 # requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='stats.nba.com', port=443): Read timed out. (read timeout=30)
