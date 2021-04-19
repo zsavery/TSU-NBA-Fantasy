@@ -38,14 +38,18 @@ def get_player_by_first_name(header, first_name) -> Response:
     return response
 
 
-def get_player_stats_by_player_id(header, player_id) -> Response:
+def get_player_stats_by_player_id(header, player_id):
     url = f"https://api-nba-v1.p.rapidapi.com/statistics/players/playerId/{player_id}"
     response = requests.request("GET", url, headers=header)
+
     return response
 
 
-def get_season(header) -> Response:
+def get_season(header):
     url = "https://api-nba-v1.p.rapidapi.com/seasons/"
     response = requests.request("GET", url, headers=header)
-    return response
+    seasons_json = response.json()
+    current_season = seasons_json['api']['seasons'][-1]
+    return current_season
+
 
