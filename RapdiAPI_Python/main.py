@@ -1,9 +1,11 @@
 import pandas as pd
 import rapidapi_nba
 import math
+import time
 # %%
 
 if __name__ == "__main__":
+    start = time.perf_counter()  # start time
     pd.set_option("display.max_rows", None, "display.max_columns", None)
     # header
     head = {
@@ -133,3 +135,5 @@ if __name__ == "__main__":
 #         completed_player += 1
 #         print(f"Completed player {completed_player} of {len(player_ids_lst)}")
 #     print(average_stats)
+    finish = time.perf_counter()  # end time
+    print(f"Finished in {round(finish - start, 2)} second(s)")
