@@ -104,7 +104,7 @@ if __name__ == "__main__":
 #             latest_stat_df = pd.json_normalize(player_stats[-6:-1])
 #         else:
 #             latest_stat_df = pd.json_normalize(player_stats)
-#         x = active_players_name_ids.loc[active_players_name_ids['playerId'] == Id]
+#         x = active_players_name_ids.loc[active_players_name_ids['playerId'] == player_id]
 #         latest_stat_df[["points", "totReb", "assists", "steals", "turnovers", "blocks"]] = latest_stat_df[
 #             ["points", "totReb", "assists", "steals", "turnovers", "blocks"]].apply(pd.to_numeric)
 #
