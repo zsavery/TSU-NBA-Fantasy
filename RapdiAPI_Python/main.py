@@ -71,7 +71,6 @@ if __name__ == "__main__":
         latest_stat_df[["points", "totReb", "assists", "steals", "turnovers", "blocks"]] = latest_stat_df[
         ["points", "totReb", "assists", "steals", "turnovers", "blocks"]].apply(pd.to_numeric)
 
-#     # TODO: Add Player name to columns
 #     # print(type(latest_stat_df['points'][0]))
         average_stats = average_stats.append({'playerId': latest_stat_df['playerId'][0],
                                           'firstName': x["firstName"].item(),
@@ -92,8 +91,8 @@ if __name__ == "__main__":
                                                             (latest_stat_df['turnovers'].mean() * -1))
                                           },
                                          ignore_index=True)
-    
-    print(rapidapi_nba.top_five(average_stats))
+    print(average_stats)
+    #print(rapidapi_nba.top_five(average_stats))
 # %%
 #
 #     average_stats = pd.DataFrame(columns=column_names)
