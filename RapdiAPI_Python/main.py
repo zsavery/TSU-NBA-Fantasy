@@ -27,10 +27,11 @@ if __name__ == "__main__":
 
     # Data Frame of active players
     active_players_df = pd.DataFrame(active_players)
+    filter_active_players = active_players_df.loc[active_players_df['startNba'] != '0']
     # %%
 
     # Data Frame of active players ids
-    active_players_name_ids = active_players_df[['playerId', 'firstName', 'lastName']].copy()
+    active_players_name_ids = filter_active_players [['playerId', 'firstName', 'lastName']].copy()
 
     # %%
 
@@ -89,8 +90,8 @@ if __name__ == "__main__":
                                                             (latest_stat_df['turnovers'].mean() * -1))
                                           },
                                          ignore_index=True)
-        print(average_stats)
-
+    
+    print(rapidapi_nba.top_five(average_stats))
 # %%
 #
 #     average_stats = pd.DataFrame(columns=column_names)
