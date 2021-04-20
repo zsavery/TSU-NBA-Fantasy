@@ -69,8 +69,8 @@ if __name__ == "__main__":
 #     # TODO: Add Player name to columns
 #     # print(type(latest_stat_df['points'][0]))
     average_stats = average_stats.append({'playerId': latest_stat_df['playerId'][0],
-                                          'firstName': x["firstName"],
-                                         'lastName': x["lastName"],
+                                          'firstName': x["firstName"].item(),
+                                          'lastName': x["lastName"].item(),
                                           'teamId': latest_stat_df['teamId'][0],
                                           'pos': latest_stat_df['pos'][0],
                                           'points': latest_stat_df['points'].mean(),
@@ -109,8 +109,8 @@ if __name__ == "__main__":
 #             ["points", "totReb", "assists", "steals", "turnovers", "blocks"]].apply(pd.to_numeric)
 #
 #         average_stats = average_stats.append({'playerId': latest_stat_df['playerId'][0],
-#                                               'firstName': x.firstName,
-#                                               'lastName': x.lastName,
+#                                               'firstName': x["firstName"].item(),
+#                                               'lastName': x["lastName"].item(),
 #                                               'teamId': latest_stat_df['teamId'][0],
 #                                               'pos': latest_stat_df['pos'][0],
 #                                               'points': latest_stat_df['points'].mean(),
