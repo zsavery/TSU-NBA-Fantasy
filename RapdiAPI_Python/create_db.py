@@ -2,7 +2,7 @@ import pandas as pd
 import mysql.connector
 
 
-def connect_db():
+def connect_db(df):
     # Connect to mysql server
     mydb = mysql.connector.connect(
         host="localhost",
@@ -16,7 +16,7 @@ def connect_db():
     cursor = mydb.cursor()
 
     create_database(cursor)
-    update_table(cursor)
+    update_table(mydb, cursor, df)
 
 
 def create_database(cursor):
@@ -41,9 +41,23 @@ def delete_table(cursor):
     return
 
 
-def update_table(cursor):
+def update_table(mydb, cursor, df):
     create_database(cursor)
     delete_table(cursor)
     create_database(cursor)
+    add_frame_to_average_stats(mydb, cursor, df)
     return
 
+
+def add_frame_to_average_stats(mydb, cursor, df):
+    for playerId, firstName, lastName, teamId, pos, points, totReb, assists, steals, blocks, turnovers, fantasyPoints \
+            in zip(df['playerId'], df['firstName'], df['lastName'], df['teamId'], df['pos'], df['points'], df['totReb'],
+                   df['assists'], df['steals'], df['blocks'], df['turnovers'], df['fantasyPoints']):
+        query = ("INSERT INTO player_statistics.average_stats (playerId, firstName, lastName, teamId, pos, points, "
+                 "totReb, assists, steals, blocks, turnovers, fantasyPoints) VALUES "
+                 "(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+        cursor.execute(query, (playerId, firstName, lastName, teamId, pos, points, totReb, assists, steals, blocks,
+                               turnovers, fantasyPoints))
+        mydb.commit()
+        print(f"Add playerId: {playerId}")
+    return

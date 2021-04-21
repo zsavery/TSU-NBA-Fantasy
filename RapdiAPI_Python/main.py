@@ -54,7 +54,8 @@ if __name__ == "__main__":
 
     # %%
     # Get stats from player from player with id '265' ie LeBron James
-    for i in range(len(player_ids_lst)):
+    #for i in range(len(player_ids_lst)):
+    for i in range(10):
         Id = player_ids_lst[i]
         player_stats_r = rapidapi_nba.get_player_stats_by_player_id(head, Id)
         player_stats = player_stats_r.json()['api']['statistics']
@@ -138,5 +139,3 @@ if __name__ == "__main__":
     create_db.connect_to_db(average_stats)
     finish = time.perf_counter()  # end time
     print(f"Finished in {round(finish - start, 2)} second(s)")
-
-    create_db.connect_db()
