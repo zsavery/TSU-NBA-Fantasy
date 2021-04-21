@@ -16,7 +16,6 @@ def connect_db():
     cursor = mydb.cursor()
 
     create_database(cursor)
-    create_table(cursor)
     update_table(cursor)
 
 
@@ -43,6 +42,7 @@ def delete_table(cursor):
 
 
 def update_table(cursor):
+    create_database(cursor)
     delete_table(cursor)
     create_database(cursor)
     return
