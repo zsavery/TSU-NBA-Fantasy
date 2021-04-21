@@ -1,8 +1,9 @@
 import pandas as pd
-import numpy as np
-import rapidapi_nba
 import math
 import time
+
+import rapidapi_nba
+import create_db
 # %%
 
 if __name__ == "__main__":
@@ -54,8 +55,8 @@ if __name__ == "__main__":
 
     # %%
     # Get stats from player from player with id '265' ie LeBron James
-    # for i in range(len(player_ids_lst)):
-    for i in range(10):
+    for i in range(len(player_ids_lst)):
+    # for i in range(15):
         Id = player_ids_lst[i]
         player_stats_r = rapidapi_nba.get_player_stats_by_player_id(head, Id)
         player_stats = player_stats_r.json()['api']['statistics']
@@ -136,5 +137,8 @@ if __name__ == "__main__":
 #         completed_player += 1
 #         print(f"Completed player {completed_player} of {len(player_ids_lst)}")
 #     print(average_stats)
+
+    # create_db.connect_db(average_stats)
+    average_stats.to_csv("average_stats.csv", index=False)
     finish = time.perf_counter()  # end time
     print(f"Finished in {round(finish - start, 2)} second(s)")
