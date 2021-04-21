@@ -2,6 +2,7 @@ import pandas as pd
 import rapidapi_nba
 import math
 import time
+import create_db
 # %%
 
 if __name__ == "__main__":
@@ -134,5 +135,8 @@ if __name__ == "__main__":
 #         completed_player += 1
 #         print(f"Completed player {completed_player} of {len(player_ids_lst)}")
 #     print(average_stats)
+    create_db.connect_to_db(average_stats)
     finish = time.perf_counter()  # end time
     print(f"Finished in {round(finish - start, 2)} second(s)")
+
+    create_db.connect_db()
