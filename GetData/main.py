@@ -66,35 +66,49 @@ if __name__ == "__main__":
         if len(player_stats) >= 5:
             latest_stat_df = pd.json_normalize(player_stats[-6:-1])
         elif len(player_stats) == 0 or math.isnan(['points'] == True):
-            print("Skip")
+            # print("Skip")
             continue
         else:
             latest_stat_df = pd.json_normalize(player_stats)
-
+        latest_stat_df.fillna("0")
         x = active_players_name_ids.loc[active_players_name_ids['playerId'] == Id]
         latest_stat_df[["points", "totReb", "assists", "steals", "turnovers", "blocks"]] = latest_stat_df[
             ["points", "totReb", "assists", "steals", "turnovers", "blocks"]].apply(pd.to_numeric)
 
         if latest_stat_df['pos'][0] == "":
-            latest_stat_df.at[0,'pos'] = "NA"
+            latest_stat_df.at[0, 'pos'] = "NA"
+
+        points = latest_stat_df['points'].mean()
+        totReb = latest_stat_df['totReb'].mean()
+        assists = latest_stat_df['assists'].mean()
+        steals = latest_stat_df['steals'].mean()
+        blocks = latest_stat_df['blocks'].mean()
+        turnovers = latest_stat_df['turnovers'].mean()
+
+        if latest_stat_df['pos'][0] == "":
+            latest_stat_df.at[0, 'pos'] = "NA"
+
         average_stats = average_stats.append({'playerId': latest_stat_df['playerId'][0],
                                               'firstName': x["firstName"].item(),
                                               'lastName': x["lastName"].item(),
                                               'teamId': latest_stat_df['teamId'][0],
                                               'pos': latest_stat_df['pos'][0],
-                                              'points': latest_stat_df['points'].mean(),
-                                              'totReb': latest_stat_df['totReb'].mean(),
-                                              'assists': latest_stat_df['assists'].mean(),
-                                              'steals': latest_stat_df['steals'].mean(),
-                                              'blocks': latest_stat_df['blocks'].mean(),
-                                              'turnovers': latest_stat_df['turnovers'].mean(),
-                                              'fantasyPoints': ((latest_stat_df['points'].mean() * 1) +
-                                                                (latest_stat_df['totReb'].mean() * 1.2) +
-                                                                (latest_stat_df['assists'].mean() * 1.5) +
-                                                                (latest_stat_df['steals'].mean() * 2) +
-                                                                (latest_stat_df['blocks'].mean() * 2) +
-                                                                (latest_stat_df['turnovers'].mean() * -1))
+                                              'points': points,
+                                              'totReb': totReb,
+                                              'assists': assists,
+                                              'steals': steals,
+                                              'blocks': blocks,
+                                              'turnovers': turnovers,
+                                              'fantasyPoints': ((points * 1) + (totReb * 1.2) +
+                                                                (assists * 1.5) + (steals * 2) +
+                                                                (blocks * 2) + (turnovers * -1))
                                               }, ignore_index=True)
+
+    average_stats = average_stats.fillna(0)
+    # average_stats['blocks'].fillna(0)
+    # average_stats['totReb'].fillna(0)
+    # average_stats['turnovers'].fillna(0)
+
     print(average_stats)
     # print(rapidapi_nba.top_five(average_stats))
 

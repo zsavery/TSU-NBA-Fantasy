@@ -41,12 +41,6 @@ def to_mysql(df):
     for playerId, firstName, lastName, teamId, pos, points, totReb, assists, steals, blocks, turnovers, fantasyPoints \
             in zip(df['playerId'], df['firstName'], df['lastName'], df['teamId'], df['pos'], df['points'], df['totReb'],
                    df['assists'], df['steals'], df['blocks'], df['turnovers'], df['fantasyPoints']):
-        # query = ("INSERT INTO player_statistics.average_stats (playerId, firstName, lastName, teamId, pos, points, "
-        #          "totReb, assists, steals, blocks, turnovers, fantasyPoints) VALUES "
-        #          "(%s, %s, %s, %s, %s, %d, %d, %d, %d, %d, %)")
-        # query = (f"""INSERT INTO {database}.{table} (playerId, firstName, lastName, teamId, pos, points,
-        #                 totReb, assists, steals, blocks, turnovers, fantasyPoints) VALUES
-        #                 (%s, %s, %s, %s, %s, %d, %d, %d, %d, %d, %d, %d)""")
         if "'" in firstName:
             firstName = firstName.replace("'", "''")
 
@@ -57,9 +51,8 @@ def to_mysql(df):
         REPLACE INTO {database}.{table} (playerId, firstName, lastName, teamId, pos, points,
             totReb, assists, steals, blocks, turnovers, fantasyPoints) VALUES
             ('{playerId}', '{firstName}', '{lastName}', '{teamId}', '{pos}', {points}, {totReb}, {assists}, {steals}, {blocks}, {turnovers}, {fantasyPoints});""")
-        # print(query)
-        # conn.cursor().execute(query, (playerId, firstName, lastName, teamId, pos, points, totReb, assists, steals,
-        #                               blocks, turnovers, fantasyPoints,))
+        print(query)
+
         conn.cursor().execute(query)
         print(f"Add playerId: {playerId}")
         conn.commit()
