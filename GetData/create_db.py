@@ -47,11 +47,17 @@ def to_mysql(df):
         # query = (f"""INSERT INTO {database}.{table} (playerId, firstName, lastName, teamId, pos, points,
         #                 totReb, assists, steals, blocks, turnovers, fantasyPoints) VALUES
         #                 (%s, %s, %s, %s, %s, %d, %d, %d, %d, %d, %d, %d)""")
+        if "'" in firstName:
+            firstName = firstName.replace("'", "''")
+
+        if "'" in lastName:
+            lastName = lastName.replace("'", "''")
+
         query = (f"""
         REPLACE INTO {database}.{table} (playerId, firstName, lastName, teamId, pos, points,
             totReb, assists, steals, blocks, turnovers, fantasyPoints) VALUES
             ('{playerId}', '{firstName}', '{lastName}', '{teamId}', '{pos}', {points}, {totReb}, {assists}, {steals}, {blocks}, {turnovers}, {fantasyPoints});""")
-        print(query)
+        # print(query)
         # conn.cursor().execute(query, (playerId, firstName, lastName, teamId, pos, points, totReb, assists, steals,
         #                               blocks, turnovers, fantasyPoints,))
         conn.cursor().execute(query)
