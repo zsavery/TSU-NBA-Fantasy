@@ -15,7 +15,8 @@ if __name__ == "__main__":
         'x-rapidapi-host': "api-nba-v1.p.rapidapi.com"
     }
     # %%
-    league = rapidapi_nba.get_leagues(head)
+    # league = rapidapi_nba.get_leagues(head)
+    league = "standard"
     # print(selected_league)
 
     # %%
@@ -56,7 +57,7 @@ if __name__ == "__main__":
     # %%
     # Get stats from player from player with id '265' ie LeBron James
     for i in range(len(player_ids_lst)):
-    # for i in range(15):
+    # for i in range(5):
         Id = player_ids_lst[i]
         player_stats_r = rapidapi_nba.get_player_stats_by_player_id(head, Id)
         player_stats = player_stats_r.json()['api']['statistics']
@@ -138,7 +139,10 @@ if __name__ == "__main__":
 #         print(f"Completed player {completed_player} of {len(player_ids_lst)}")
 #     print(average_stats)
 
-    # create_db.connect_db(average_stats)
+    #%%
     average_stats.to_csv("average_stats.csv", index=False)
+    #%%
+    create_db.to_mysql(average_stats)
+    #%%
     finish = time.perf_counter()  # end time
     print(f"Finished in {round(finish - start, 2)} second(s)")
