@@ -1,11 +1,11 @@
 -- needs to be run as root user to make accounts and give privileges
-create user if not exists `admin`@`NBA` identified by 'tigers';
+create user if not exists `admin`@`NBA` identified by 'tigers'; -- creates a user in connection NBA named: 'admin' w/ a password
 grant all privileges on *.* to `admin`@`NBA`;
 
-create user if not exists `admin`@`localhost` identified by 'tigers';
+create user if not exists `admin`@`localhost` identified by 'tigers'; -- creates a user in connection localhost named: 'admin' w/ a password
 grant all privileges on *.* to `admin`@`localhost`;
 -- i believe this allows for a remote connection
-create user if not exists `admin`@`192.168.68.101` identified by 'tigers';
+create user if not exists `admin`@`192.168.68.101` identified by 'tigers'; -- creates a user in connection of ipaddress named: 'admin' w/ a password
 grant all privileges on *.* to `admin`@`192.168.68.101`;
 
 flush privileges;
@@ -27,4 +27,3 @@ flush privileges;
 #     `fantasyPoints` decimal(4, 2),
 #     primary key(`playerId`)
 # );
-
