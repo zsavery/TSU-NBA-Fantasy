@@ -5,8 +5,8 @@ grant all privileges on *.* to `admin`@`NBA`;
 create user if not exists `admin`@`localhost` identified by 'tigers'; -- creates a user in connection localhost named: 'admin' w/ a password
 grant all privileges on *.* to `admin`@`localhost`;
 -- i believe this allows for a remote connection
-create user if not exists `admin`@`192.168.68.101` identified by 'tigers'; -- creates a user in connection of ipaddress named: 'admin' w/ a password
-grant all privileges on *.* to `admin`@`192.168.68.101`;
+-- create user if not exists `admin`@`192.168.68.101` identified by 'tigers'; -- creates a user in connection of ipaddress named: 'admin' w/ a password
+-- grant all privileges on *.* to `admin`@`192.168.68.101`;
 
 flush privileges;
 
