@@ -51,3 +51,5 @@ def get_season(header):
     seasons_json = response.json()
     current_season = seasons_json['api']['seasons'][-1]
     return current_season
+
+
