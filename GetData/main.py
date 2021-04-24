@@ -8,6 +8,8 @@ import create_db
 
 if __name__ == "__main__":
     # start time
+    # create_db.drop()
+    # exit()
     start = time.perf_counter()
     pd.set_option("display.max_rows", None, "display.max_columns", None)
     # header
@@ -56,10 +58,11 @@ if __name__ == "__main__":
     average_stats = pd.DataFrame(columns=column_names)
 
     # %%
-    # Get stats from player from player with id '265' ie LeBron James
-    # for i in range(len(player_ids_lst)):
-    for i in range(50):
+
+    for i in range(len(player_ids_lst)):
+    # for i in range(50):
         Id = player_ids_lst[i]
+        print(f"Getting Stats for player: {Id}")
         player_stats_r = rapidapi_nba.get_player_stats_by_player_id(head, Id)
         player_stats = player_stats_r.json()['api']['statistics']
         stat_df = pd.json_normalize(player_stats)
@@ -113,7 +116,8 @@ if __name__ == "__main__":
     #%%
     average_stats.to_csv("average_stats.csv", index=False)
     #%%
-    # create_db.to_mysql(average_stats)
+    create_db.to_mysql(average_stats)
+    #%%
     #%%
     finish = time.perf_counter()  # end time
     print(f"Finished in {round(finish - start, 2)} second(s)")

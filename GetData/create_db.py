@@ -24,18 +24,18 @@ def to_mysql(df):
                            charset='utf8')
     table = "stats"
     create_table = f"""create table if not exists {database}.{table}(
-        playerId DECIMAL(4,2) unique not null,
+        playerId INTEGER(8) unique not null,
         firstName varchar(30),
         lastName varchar(30),
-        teamId DECIMAL(4,2),
+        teamId INTEGER(8),
         pos varchar(10),
-        points DECIMAL(4,2),
-        totReb DECIMAL(4,2),
-        assists DECIMAL(4,2),
-        steals DECIMAL(4,2),
-        blocks DECIMAL(4,2),
-        turnovers DECIMAL(4,2),
-        fantasyPoints DECIMAL(4,2), 
+        points DECIMAL(5,2),
+        totReb DECIMAL(5,2),
+        assists DECIMAL(5,2),
+        steals DECIMAL(5,2),
+        blocks DECIMAL(5,2),
+        turnovers DECIMAL(5,2),
+        fantasyPoints DECIMAL(5,2), 
         primary key(playerId));"""
     conn.cursor().execute(create_table)
     for playerId, firstName, lastName, teamId, pos, points, totReb, assists, steals, blocks, turnovers, fantasyPoints \
