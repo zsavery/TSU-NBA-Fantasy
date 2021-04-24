@@ -72,8 +72,9 @@ if __name__ == "__main__":
             latest_stat_df = pd.json_normalize(player_stats)
         latest_stat_df.fillna("0")
         x = active_players_name_ids.loc[active_players_name_ids['playerId'] == Id]
-        latest_stat_df[["points", "totReb", "assists", "steals", "turnovers", "blocks"]] = latest_stat_df[
-            ["points", "totReb", "assists", "steals", "turnovers", "blocks"]].apply(pd.to_numeric)
+        latest_stat_df[["playerId", "teamId", "points", "totReb", "assists", "steals", "turnovers",
+                        "blocks"]] = latest_stat_df[["playerId", "teamId", "points", "totReb", "assists", "steals",
+                                                     "turnovers", "blocks"]].apply(pd.to_numeric)
 
         if latest_stat_df['pos'][0] == "":
             latest_stat_df.at[0, 'pos'] = "NA"

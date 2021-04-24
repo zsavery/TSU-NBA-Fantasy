@@ -3,9 +3,9 @@ import pymysql
 
 def to_mysql(df):
     cert = {"host": "localhost",
-           "port": 3306,
-           "user": "admin",
-           "passwd": "tigers"}
+            "port": 3306,
+            "user": "admin",
+            "passwd": "tigers"}
 
     conn = pymysql.connect(host=cert["host"],
                            port=cert["port"],
@@ -24,18 +24,18 @@ def to_mysql(df):
                            charset='utf8')
     table = "stats"
     create_table = f"""create table if not exists {database}.{table}(
-        playerId varchar(10) unique not null,
+        playerId DECIMAL(4,2) unique not null,
         firstName varchar(30),
         lastName varchar(30),
-        teamId varchar(10),
+        teamId DECIMAL(4,2),
         pos varchar(10),
-        points DECIMAL,
-        totReb DECIMAL,
-        assists DECIMAL,
-        steals DECIMAL,
-        blocks DECIMAL,
-        turnovers DECIMAL,
-        fantasyPoints DECIMAL, 
+        points DECIMAL(4,2),
+        totReb DECIMAL(4,2),
+        assists DECIMAL(4,2),
+        steals DECIMAL(4,2),
+        blocks DECIMAL(4,2),
+        turnovers DECIMAL(4,2),
+        fantasyPoints DECIMAL(4,2), 
         primary key(playerId));"""
     conn.cursor().execute(create_table)
     for playerId, firstName, lastName, teamId, pos, points, totReb, assists, steals, blocks, turnovers, fantasyPoints \
@@ -57,3 +57,30 @@ def to_mysql(df):
         print(f"Add playerId: {playerId}")
         conn.commit()
 
+
+def drop():
+    cert = {"host": "localhost",
+            "port": 3306,
+            "user": "admin",
+            "passwd": "tigers"}
+
+    conn = pymysql.connect(host=cert["host"],
+                           port=cert["port"],
+                           user=cert["user"],
+                           passwd=cert["passwd"],
+                           charset='utf8')
+    database = "stats_test"
+    conn.cursor().execute(f"CREATE DATABASE IF NOT EXISTS {database}")
+    conn = pymysql.connect(host=cert["host"],
+                           port=cert["port"],
+                           user=cert["user"],
+                           passwd=cert["passwd"],
+                           db=database,
+                           charset='utf8')
+    table = "stats"
+    query = (f'''
+    DROP TABLE IF EXISTS {database}.{table}
+    ''')
+
+    conn.cursor().execute(query)
+    conn.commit()

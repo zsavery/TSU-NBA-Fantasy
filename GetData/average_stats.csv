@@ -124,7 +124,7 @@ playerId,firstName,lastName,teamId,pos,points,totReb,assists,steals,blocks,turno
 246,Richaun,Holmes,30,C,14.8,8.2,1.2,0.8,1.4,1.4,29.440000000000005
 247,Rodney,Hood,38,NA,5.6,2.8,0.8,0.0,0.2,0.4,10.16
 248,Al,Horford,25,NA,15.25,7.0,2.5,1.0,1.25,0.5,31.4
-249,Danuel,House Jr.,14,NA,,,,,,,
+249,Danuel,House Jr.,14,NA,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 250,Dwight,Howard,27,NA,3.5,10.25,1.5,0.25,1.0,1.75,18.799999999999997
 254,RJ,Hunter,1,NA,0.0,0.0,0.4,0.0,0.0,0.2,0.4000000000000001
 255,Serge,Ibaka,16,C,7.6,6.8,1.4,0.2,1.0,0.6,19.659999999999997
@@ -569,7 +569,7 @@ playerId,firstName,lastName,teamId,pos,points,totReb,assists,steals,blocks,turno
 2593,Josh,Green,8,NA,0.4,0.4,0.0,0.0,0.0,0.2,0.6799999999999999
 2595,Tyrese,Haliburton,30,SG,8.4,1.2,4.8,2.0,0.0,0.8,20.24
 2597,R.J.,Hampton,26,NA,8.0,4.2,1.6,0.4,0.2,1.6,15.039999999999997
-2598,Jalen,Harris,38,NA,,,,,,,
+2598,Jalen,Harris,38,NA,0.0,0.0,0.0,0.0,0.0,0.0,0.0
 2599,Killian,Hayes,10,NA,8.4,3.2,5.0,1.6,0.6,2.8,21.34
 2601,Markus,Howard,9,NA,0.4,0.6,0.2,0.0,0.0,0.0,1.4200000000000002
 2602,Elijah,Hughes,40,NA,0.0,0.0,0.0,0.0,0.0,0.0,0.0
