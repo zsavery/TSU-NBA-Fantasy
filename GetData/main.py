@@ -8,8 +8,6 @@ import create_db
 
 if __name__ == "__main__":
     # start time
-    # create_db.drop()
-    # exit()
     start = time.perf_counter()
     pd.set_option("display.max_rows", None, "display.max_columns", None)
     # header
