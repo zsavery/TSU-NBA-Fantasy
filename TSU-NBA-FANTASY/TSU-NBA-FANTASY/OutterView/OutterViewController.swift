@@ -8,6 +8,24 @@
 import Foundation
 import UIKit
 
+
+struct MyResult {
+    let playerId: Int
+    let fisrtName: String
+    let lastName: String
+    let pos: String
+    let teamID: String
+    let points: Float
+    let totReb: Float
+    let assists: Float
+    let steals: Float
+    let blocks: Float
+    let turnovers: Float
+    let fantasyPoints: Float
+
+}
+
+
 class OutterViewController: UIViewController {
     var outterView: OutterView!
     let outterViewModel: OutterViewModel!
@@ -21,6 +39,17 @@ class OutterViewController: UIViewController {
         self.outterView = OutterView(frame: frame, delegate: self, menuOptions: self.outterViewModel.options)
         self.view = self.outterView
         setupViewControllers()
+        
+    let jsonUrlString = "https://tsufansite.com/info.php"
+    guard let url =  URL(string: jsonUrlString) else
+        {return}
+    
+    URLSession.shared.dataTask(with: url){(data, responce, err) in
+        guard let data = data else {return}
+        let dataAsString = String(data: data, encoding: .utf8)
+        print(dataAsString)
+        
+    }.resume()
         
     }
     
