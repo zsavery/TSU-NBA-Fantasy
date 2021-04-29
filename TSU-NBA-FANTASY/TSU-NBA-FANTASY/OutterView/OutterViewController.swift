@@ -22,6 +22,21 @@ struct MyResult {
     let blocks: Float
     let turnovers: Float
     let fantasyPoints: Float
+    
+    init(json: [String: Any]){
+        playerId = json["playerId"] as? Int ?? 0
+        fisrtName = json["fisrtName"] as? String ?? ""
+        lastName = json["lastName"] as? String ?? ""
+        pos = json["pos"] as? String ?? ""
+        teamID = json["teamID"] as? String ?? ""
+        points = json["points"] as? Float ?? 0
+        totReb = json["totReb"] as? Float ?? 0
+        assists = json["assists"] as? Float ?? 0
+        steals = json["steals"] as? Float ?? 0
+        blocks = json["blocks"] as? Float ?? 0
+        turnovers = json["turnovers"] as? Float ?? 0
+        fantasyPoints = json["fantasyPoints"] as? Float ?? 0
+    }
 
 }
 
@@ -47,7 +62,17 @@ class OutterViewController: UIViewController {
     URLSession.shared.dataTask(with: url){(data, responce, err) in
         guard let data = data else {return}
         let dataAsString = String(data: data, encoding: .utf8)
-        print(dataAsString)
+        //print(dataAsString)
+        
+        do{
+            let json = try JSONSerialization.jsonObject(with: data, options: [.mutableContainers, .allowFragments])
+            print(json)
+            
+        } catch let jsonErr{
+        
+            print("error serializing json: ", jsonErr)
+        }
+        
         
     }.resume()
         
