@@ -1,0 +1,119 @@
+{
+  "main": {
+    "id": "366fae8a0261fff9",
+    "type": "split",
+    "children": [
+      {
+        "id": "3cf79b812c0ea316",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "README.md",
+            "mode": "source"
+          }
+        }
+      },
+      {
+        "id": "7f63d5985dd00c97",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "README.md",
+            "mode": "preview"
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "5339db10924f5ca5",
+    "type": "split",
+    "children": [
+      {
+        "id": "349240e295c8ccd3",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5db53f1a9ad26800",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "e222b4f35c78245a",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "right": {
+    "id": "1cc2637e70e78f22",
+    "type": "split",
+    "children": [
+      {
+        "id": "7c171a814638561a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a2a0330ca4b9d680",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "README.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "6a02b2016fb34aba",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "412feb58f1887865",
+            "type": "leaf",
+            "state": {
+              "type": "todo",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "3cf79b812c0ea316",
+  "lastOpenFiles": [
+    "README.md"
+  ]
+}
