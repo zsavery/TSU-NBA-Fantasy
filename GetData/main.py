@@ -71,14 +71,24 @@ if __name__ == "__main__":
             continue
         else:
             latest_stat_df = pd.json_normalize(player_stats)
-        latest_stat_df.fillna("0")
+        latest_stat_df[["playerId", "teamId", "points", "totReb", "assists", "steals", "turnovers", "blocks"]] = latest_stat_df[["playerId", "teamId", "points", "totReb", "assists", "steals",
+                            "turnovers", "blocks"]].apply(pd.to_numeric)
+        latest_stat_df['playerId'] = latest_stat_df['playerId'].fillna(0)
+        latest_stat_df['teamId'] = latest_stat_df['teamId'].fillna(0)
+        latest_stat_df['firstName'] = latest_stat_df['firstName'].fillna('NA')
+        latest_stat_df['lastName'] = latest_stat_df['lastName'].fillna('NA')
+        latest_stat_df['pos'] = latest_stat_df['pos'].fillna('NA')
+        latest_stat_df['points'] = latest_stat_df['points'].fillna(0)
+        latest_stat_df['totReb'] = latest_stat_df['totReb'].fillna(0)
+        latest_stat_df['assists'] = latest_stat_df['assists'].fillna(0)
+        latest_stat_df['steals'] = latest_stat_df['steals'].fillna(0)
+        latest_stat_df['turnovers'] = latest_stat_df['turnovers'].fillna(0)
+        latest_stat_df['blocks'] = latest_stat_df['blocks'].fillna(0)
         x = active_players_name_ids.loc[active_players_name_ids['playerId'] == Id]
-        latest_stat_df[["playerId", "teamId", "points", "totReb", "assists", "steals", "turnovers",
-                        "blocks"]] = latest_stat_df[["playerId", "teamId", "points", "totReb", "assists", "steals",
-                                                     "turnovers", "blocks"]].apply(pd.to_numeric)
+        
 
-        if latest_stat_df['pos'][0] == "":
-            latest_stat_df.at[0, 'pos'] = "NA"
+        # if latest_stat_df['pos'][0] == "":
+        #     latest_stat_df.at[0, 'pos'] = "NA"
 
         points = latest_stat_df['points'].mean()
         totReb = latest_stat_df['totReb'].mean()
