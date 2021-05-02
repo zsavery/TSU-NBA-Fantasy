@@ -29,7 +29,7 @@ struct MyResult {
         lastName = json["lastName"] as? String ?? ""
         pos = json["pos"] as? String ?? ""
         teamID = json["teamID"] as? String ?? ""
-        points = json["points"] as? Float ?? 0
+        points = json["points"] as? D ?? 0
         totReb = json["totReb"] as? Float ?? 0
         assists = json["assists"] as? Float ?? 0
         steals = json["steals"] as? Float ?? 0
@@ -71,6 +71,101 @@ class OutterViewController: UIViewController {
         } catch let jsonErr{
         
             print("error serializing json: ", jsonErr)
+        }
+        
+        var newtxt: String? = dataAsString
+
+        let wordsToRemove = ["Playerid: ", "First Name: ", "Last Name: ", "TeamID: ", "Pos: ", "Points: ", "Rebounds: ", "Assists: ", "Steals: " , "Blocks: ", "TurnOvers: ", "Fantasy "]
+        for wordToRemove in wordsToRemove{
+            while newtxt!.contains(wordToRemove) {
+                if let range2 = newtxt!.range(of: wordToRemove) {
+                    newtxt.removeSubrange(range2)
+                }
+            }
+        }
+
+        newtxt = newtxt.replacingOccurrences(of: " ", with: ", ")
+        print("Swap spaces with commas: \n\(newtxt)")
+
+        var txtArr = newtxt.components(separatedBy: ", ")
+
+        //for val in txtArr{
+            //print(val)
+        //}
+        var myNewDictArray: [[String:Any]]
+        var tempDict: [String: Any]
+
+        print("Count txtArr: \n\(txtArr.count)")
+
+        var index = 0
+        var keyNum = 12
+
+        struct PlayerStat {
+            var PlayerId: String?
+            var FirstName: String?
+            var LastName: String?
+            var TeamId: String?
+            var Pos: String?
+            var Points: Double = 0
+            var Rebounds: Double = 0
+            var Assists : Double = 0
+            var Steals: Double = 0
+            var Blocks: Double = 0
+            var TurnOvers: Double = 0
+            var FantasyPoints: Double = 0
+        }
+        var stat = PlayerStat()
+        var PlayerStats = [PlayerStat]()
+
+        for value in txtArr{
+            if(index > (keyNum-1)){
+                index = 0
+            }
+            switch index {
+                case 0:
+                    stat.PlayerId = value
+                    print("PlayerId: " + stat.PlayerId!)
+                case 1:
+                    stat.FirstName = value
+                    print("First Name: " + stat.FirstName!)
+                case 2:
+                    stat.LastName = value
+                    print("Last Name: " + stat.LastName!)
+                case 3:
+                    stat.TeamId = value
+                    print("TeamId: " + stat.TeamId!)
+                case 4:
+                    stat.Pos = value
+                    print("Position: " + stat.Pos!)
+                
+                case 5:
+                    stat.Points = round(Double(value)!)
+                    print("Points: \(stat.Points)")
+                case 6:
+                    stat.Rebounds = round(Double(value)!)
+                    print("Rebounds: \(stat.Rebounds)")
+                case 7:
+                    stat.Assists = round(Double(value)!)
+                    print("Assists: \(stat.Assists)")
+                case 8:
+                    stat.Steals = round(Double(value)!)
+                    print("Steals: \(stat.Steals)")
+                case 9:
+                    stat.Blocks = round(Double(value)!)
+                    print("Blocks: \(stat.Blocks)")
+                case 10:
+                    stat.TurnOvers = round(Double(value)!)
+                    print("skip")
+                case 11:
+                    stat.FantasyPoints = round(Double(value)!)
+                default:
+                    print("Something went wrong!")
+            }
+            //print(stat)
+            index+=1
+            if (index == 9){
+                break
+            }
         }
         
         
