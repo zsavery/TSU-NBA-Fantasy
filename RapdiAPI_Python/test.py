@@ -74,18 +74,35 @@ if __name__ == "__main__":
         if len(player_stats) >= 5:
             latest_stat_df = pd.json_normalize(player_stats[-6:-1])
         elif len(player_stats) == 0 or math.isnan(['points'] == True):
-            print("Skip")
+            # print("Skip")
             continue
         else:
             latest_stat_df = pd.json_normalize(player_stats)
-
+           
+        
         # print(type(latest_stat_df['points'][0]))
         x = active_players_name_ids.loc[active_players_name_ids['playerId'] == Id]
         latest_stat_df[["points", "totReb", "assists", "steals", "turnovers", "blocks"]] = latest_stat_df[
             ["points", "totReb", "assists", "steals", "turnovers", "blocks"]].apply(pd.to_numeric)
+        latest_stat_df['playerId'] = latest_stat_df['playerId'].fillna('NA', inplace=True)
+        latest_stat_df['teamId'] = latest_stat_df['teamId'].fillna('NA', inplace=True)
+        latest_stat_df['firstName'] = latest_stat_df['firstName'].fillna('NA', inplace=True)
+        latest_stat_df['lastName'] = latest_stat_df['lastName'].fillna('NA', inplace=True)
+        latest_stat_df['pos'] = latest_stat_df['pos'].fillna('NA', inplace=True)
+        latest_stat_df['points'] = latest_stat_df['points'].fillna(0, inplace=True)
+        latest_stat_df['totReb'] = latest_stat_df['totReb'].fillna(0, inplace=True)
+        latest_stat_df['assists'] = latest_stat_df['assists'].fillna(0, inplace=True)
+        latest_stat_df['steals'] = latest_stat_df['steals'].fillna(0, inplace=True)
+        latest_stat_df['turnovers'] = latest_stat_df['turnovers'].fillna(0, inplace=True)
+        latest_stat_df['blocks'] = latest_stat_df['blocks'].fillna(0, inplace=True)
+
 
         #     # TODO: Add Player name to columns
         #     # print(type(latest_stat_df['points'][0]))
+        if latest_stat_df['pos'][0] == "":
+            latest_stat_df.at[0, 'pos'] = "NA"
+        if latest_stat_df['pos'][0] == "":
+            latest_stat_df.at[0, 'pos'] = "NA"
 
         average_stats = (
         latest_stat_df['playerId'][0], x["firstName"].item(), x["lastName"].item(), latest_stat_df['teamId'][0],
