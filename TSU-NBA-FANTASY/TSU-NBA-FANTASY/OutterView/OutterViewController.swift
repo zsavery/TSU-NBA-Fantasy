@@ -89,18 +89,18 @@ class OutterViewController: UIViewController {
         newtxt = newtxt!.replacingOccurrences(of: "\n", with: ", ")
         //print("Swap spaces with commas: \n\(newtxt!)")
 
-        var txtArr: [String] = newtxt!.components(separatedBy: ", ")
+        let txtArr: [String] = newtxt!.components(separatedBy: ", ")
 
         //for val in txtArr{
             //print(val)
         //}
-        var myNewDictArray: [[String:Any]]
-        var tempDict: [String: Any]
+        //var myNewDictArray: [[String:Any]]
+        //var tempDict: [String: Any]
 
         //print("Count txtArr: \n\(txtArr.count)")
 
         var index = 0
-        var keyNum = 12
+        let keyNum = 12
 
         struct PlayerStat {
             var PlayerId: String?
@@ -167,9 +167,7 @@ class OutterViewController: UIViewController {
             }
             //print(stat)
             index+=1
-            //if (index == 9){
-            //    break
-            //}
+            PlayerStats.append(stat)
         }
         
         
