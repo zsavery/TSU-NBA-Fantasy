@@ -108,12 +108,13 @@ if __name__ == "__main__":
         latest_stat_df['playerId'][0], x["firstName"].item(), x["lastName"].item(), latest_stat_df['teamId'][0],
         latest_stat_df['pos'][0], latest_stat_df['points'].mean(), latest_stat_df['totReb'].mean(),
         latest_stat_df['assists'].mean(), latest_stat_df['steals'].mean(), latest_stat_df['blocks'].mean(),
-        latest_stat_df['turnovers'].mean(), ((latest_stat_df['points'].mean() * 1) +
-                                             (latest_stat_df['totReb'].mean() * 1.2) +
-                                             (latest_stat_df['assists'].mean() * 1.5) +
-                                             (latest_stat_df['steals'].mean() * 2) +
-                                             (latest_stat_df['blocks'].mean() * 2) +
-                                             (latest_stat_df['turnovers'].mean() * -1)))
+        latest_stat_df['turnovers'].mean(), (round((latest_stat_df['points'].mean() * 1), 2) +
+                                             round((latest_stat_df['totReb'].mean() * 1.2), 2) +
+                                             round((latest_stat_df['assists'].mean() * 1.5), 2) +
+                                             round((latest_stat_df['steals'].mean() * 2), 2) +
+                                             round((latest_stat_df['blocks'].mean() * 2), 2) +
+                                             round((latest_stat_df['turnovers'].mean() * -1), 2)
+                                            )
         average_stats = [str(x) for x in average_stats]
         mycursor.execute(add_Player, average_stats)
         average_stats.clear()
