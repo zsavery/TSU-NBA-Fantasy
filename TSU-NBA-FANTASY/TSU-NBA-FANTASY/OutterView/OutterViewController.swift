@@ -10,26 +10,26 @@ import UIKit
 
 
 struct MyResult {
-    let playerId: Int
-    let fisrtName: String
-    let lastName: String
-    let pos: String
-    let teamID: String
-    let points: Float
-    let totReb: Float
-    let assists: Float
-    let steals: Float
-    let blocks: Float
-    let turnovers: Float
-    let fantasyPoints: Float
-    
+    var PlayerId: String = "NA"
+    var FirstName: String = "NA"
+    var LastName: String = "NA"
+    var Pos: String = "NA"
+    var TeamId: String = "NA"
+    var Points: Float = 0
+    var Rebounds: Float = 0
+    var Assists: Float = 0
+    var Steals: Float = 0
+    var Blocks: Float = 0
+    var Turnovers: Float = 0
+    var FantasyPoints: Float = 0
+    /*
     init(json: [String: Any]){
-        playerId = json["playerId"] as? Int ?? 0
-        fisrtName = json["fisrtName"] as? String ?? ""
-        lastName = json["lastName"] as? String ?? ""
-        pos = json["pos"] as? String ?? ""
-        teamID = json["teamID"] as? String ?? ""
-        points = json["points"] as? D ?? 0
+        playerId = json["playerId"] as? String ?? "NA"
+        fisrtName = json["fisrtName"] as? String ?? "NA"
+        lastName = json["lastName"] as? String ?? "NA"
+        pos = json["pos"] as? String ?? "NA"
+        teamID = json["teamID"] as? String ?? "NA"
+        points = json["points"] as? Float ?? 0
         totReb = json["totReb"] as? Float ?? 0
         assists = json["assists"] as? Float ?? 0
         steals = json["steals"] as? Float ?? 0
@@ -37,6 +37,7 @@ struct MyResult {
         turnovers = json["turnovers"] as? Float ?? 0
         fantasyPoints = json["fantasyPoints"] as? Float ?? 0
     }
+ */
 
 }
 
@@ -79,15 +80,16 @@ class OutterViewController: UIViewController {
         for wordToRemove in wordsToRemove{
             while newtxt!.contains(wordToRemove) {
                 if let range2 = newtxt!.range(of: wordToRemove) {
-                    newtxt.removeSubrange(range2)
+                    newtxt!.removeSubrange(range2)
                 }
             }
         }
 
-        newtxt = newtxt.replacingOccurrences(of: " ", with: ", ")
-        print("Swap spaces with commas: \n\(newtxt)")
+        newtxt = newtxt!.replacingOccurrences(of: " ", with: ", ")
+        newtxt = newtxt!.replacingOccurrences(of: "\n", with: ", ")
+        //print("Swap spaces with commas: \n\(newtxt!)")
 
-        var txtArr = newtxt.components(separatedBy: ", ")
+        var txtArr: [String] = newtxt!.components(separatedBy: ", ")
 
         //for val in txtArr{
             //print(val)
@@ -95,7 +97,7 @@ class OutterViewController: UIViewController {
         var myNewDictArray: [[String:Any]]
         var tempDict: [String: Any]
 
-        print("Count txtArr: \n\(txtArr.count)")
+        //print("Count txtArr: \n\(txtArr.count)")
 
         var index = 0
         var keyNum = 12
@@ -114,58 +116,60 @@ class OutterViewController: UIViewController {
             var TurnOvers: Double = 0
             var FantasyPoints: Double = 0
         }
-        var stat = PlayerStat()
-        var PlayerStats = [PlayerStat]()
+        var stat = MyResult()
+        var PlayerStats = [MyResult()]
 
         for value in txtArr{
             if(index > (keyNum-1)){
                 index = 0
             }
+            let val: String? = value
             switch index {
                 case 0:
-                    stat.PlayerId = value
-                    print("PlayerId: " + stat.PlayerId!)
+                    stat.PlayerId = val ?? "NA"
+                    print("PlayerId: " + stat.PlayerId)
                 case 1:
-                    stat.FirstName = value
-                    print("First Name: " + stat.FirstName!)
+                    stat.FirstName = val ?? "NA"
+                    print("First Name: " + stat.FirstName)
                 case 2:
-                    stat.LastName = value
-                    print("Last Name: " + stat.LastName!)
+                    stat.LastName = val ?? "NA"
+                    print("Last Name: " + stat.LastName)
                 case 3:
-                    stat.TeamId = value
-                    print("TeamId: " + stat.TeamId!)
+                    stat.TeamId = val ?? "NA"
+                    print("TeamId: " + stat.TeamId)
                 case 4:
-                    stat.Pos = value
-                    print("Position: " + stat.Pos!)
+                    stat.Pos = val ?? "NA"
+                    print("Position: " + stat.Pos)
                 
                 case 5:
-                    stat.Points = round(Double(value)!)
+                    stat.Points = round(Float(val ?? "0") ?? 0)
                     print("Points: \(stat.Points)")
                 case 6:
-                    stat.Rebounds = round(Double(value)!)
+                    stat.Rebounds = round(Float(val ?? "0") ?? 0)
                     print("Rebounds: \(stat.Rebounds)")
                 case 7:
-                    stat.Assists = round(Double(value)!)
+                    stat.Assists = round(Float(val ?? "0") ?? 0)
                     print("Assists: \(stat.Assists)")
                 case 8:
-                    stat.Steals = round(Double(value)!)
+                    stat.Steals = round(Float(val ?? "0") ?? 0)
                     print("Steals: \(stat.Steals)")
                 case 9:
-                    stat.Blocks = round(Double(value)!)
+                    stat.Blocks = round(Float(val ?? "0") ?? 0)
                     print("Blocks: \(stat.Blocks)")
                 case 10:
-                    stat.TurnOvers = round(Double(value)!)
-                    print("skip")
+                    stat.Turnovers = round(Float(val ?? "0") ?? 0)
+                    print("Turnovers: \(stat.Turnovers)")
                 case 11:
-                    stat.FantasyPoints = round(Double(value)!)
+                    stat.FantasyPoints = round(Float(val ?? "0") ?? 0)
+                    print("Fantasy Points: \(stat.FantasyPoints)")
                 default:
                     print("Something went wrong!")
             }
             //print(stat)
             index+=1
-            if (index == 9){
-                break
-            }
+            //if (index == 9){
+            //    break
+            //}
         }
         
         
