@@ -1,14 +1,24 @@
+import mysql.connector
 import pandas as pd
+import rapidapi_nba
 import math
 import time
+import requests
 
-import rapidapi_nba
-import create_db
+mydb = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="TSUFAN2021",
+    database="mydatabase"
+)
+mycursor = mydb.cursor()
+sql = "DROP TABLE Playerstest"
+mycursor.execute(sql)
+mycursor.execute(
+    "CREATE TABLE Playerstest (player_Id VARCHAR(255),fname VARCHAR(255), lname VARCHAR(255),teamId VARCHAR(255),pos VARCHAR(255),points VARCHAR(255),totReb VARCHAR(255),assists VARCHAR(255),steals VARCHAR(255),blocks VARCHAR(255),turnovers VARCHAR(255),fantasyPoints VARCHAR(255))")
 # %%
-
 if __name__ == "__main__":
-    # start time
-    start = time.perf_counter()
+    start = time.perf_counter()  # start time
     pd.set_option("display.max_rows", None, "display.max_columns", None)
     # header
     head = {
@@ -16,33 +26,31 @@ if __name__ == "__main__":
         'x-rapidapi-host': "api-nba-v1.p.rapidapi.com"
     }
     # %%
-    # Selected League
-    # league = rapidapi_nba.get_leagues(head)
-    league = "standard"
-
+    league = rapidapi_nba.get_leagues(head)
+    # print(selected_league)
 
     # %%
-    # Get All Players in Selected League
+
     players_by_league = rapidapi_nba.get_players_by_league(head, league)
 
     # %%
-    # Filter Players by Activity
+
+    # Filter active players
     active_players = [x for x in players_by_league if x['leagues']['standard']['active'] == '1']
 
     # %%
 
-    # Data Frame of Active players
+    # Data Frame of active players
     active_players_df = pd.DataFrame(active_players)
     filter_active_players = active_players_df.loc[active_players_df['startNba'] != '0']
     # %%
 
     # Data Frame of active players ids
-    active_players_name_ids = filter_active_players [['playerId', 'firstName', 'lastName']].copy()
+    active_players_name_ids = filter_active_players[['playerId', 'firstName', 'lastName']].copy()
 
     # %%
 
     player_ids_lst = [x for x in active_players_name_ids["playerId"]]
-
 
     # %%
 
@@ -54,11 +62,11 @@ if __name__ == "__main__":
     column_names = ['playerId', 'firstName', 'lastName', 'teamId', 'pos', 'points', 'totReb', 'assists',
                     'steals', 'blocks', 'turnovers', 'fantasyPoints']
     average_stats = pd.DataFrame(columns=column_names)
+    add_Player = "INSERT INTO Playerstest (player_Id,fname, lname,teamId,pos,points,totReb,assists,steals,blocks,turnovers,fantasyPoints) VALUES (%s,%s, %s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
 
     # %%
     # Get stats from player from player with id '265' ie LeBron James
-    # for i in range(len(player_ids_lst)):
-    for i in range(50):
+    for i in range(len(player_ids_lst)):
         Id = player_ids_lst[i]
         player_stats_r = rapidapi_nba.get_player_stats_by_player_id(head, Id)
         player_stats = player_stats_r.json()['api']['statistics']
@@ -70,50 +78,46 @@ if __name__ == "__main__":
             continue
         else:
             latest_stat_df = pd.json_normalize(player_stats)
-        latest_stat_df.fillna("0")
+           
+        
+        # print(type(latest_stat_df['points'][0]))
         x = active_players_name_ids.loc[active_players_name_ids['playerId'] == Id]
-        latest_stat_df[["playerId", "teamId", "points", "totReb", "assists", "steals", "turnovers",
-                        "blocks"]] = latest_stat_df[["playerId", "teamId", "points", "totReb", "assists", "steals",
-                                                     "turnovers", "blocks"]].apply(pd.to_numeric)
+        latest_stat_df[["points", "totReb", "assists", "steals", "turnovers", "blocks"]] = latest_stat_df[
+            ["points", "totReb", "assists", "steals", "turnovers", "blocks"]].apply(pd.to_numeric)
+        latest_stat_df['playerId'] = latest_stat_df['playerId'].fillna('NA', inplace=True)
+        latest_stat_df['teamId'] = latest_stat_df['teamId'].fillna('NA', inplace=True)
+        latest_stat_df['firstName'] = latest_stat_df['firstName'].fillna('NA', inplace=True)
+        latest_stat_df['lastName'] = latest_stat_df['lastName'].fillna('NA', inplace=True)
+        latest_stat_df['pos'] = latest_stat_df['pos'].fillna('NA', inplace=True)
+        latest_stat_df['points'] = latest_stat_df['points'].fillna(0, inplace=True)
+        latest_stat_df['totReb'] = latest_stat_df['totReb'].fillna(0, inplace=True)
+        latest_stat_df['assists'] = latest_stat_df['assists'].fillna(0, inplace=True)
+        latest_stat_df['steals'] = latest_stat_df['steals'].fillna(0, inplace=True)
+        latest_stat_df['turnovers'] = latest_stat_df['turnovers'].fillna(0, inplace=True)
+        latest_stat_df['blocks'] = latest_stat_df['blocks'].fillna(0, inplace=True)
 
+
+        #     # TODO: Add Player name to columns
+        #     # print(type(latest_stat_df['points'][0]))
+        if latest_stat_df['pos'][0] == "":
+            latest_stat_df.at[0, 'pos'] = "NA"
         if latest_stat_df['pos'][0] == "":
             latest_stat_df.at[0, 'pos'] = "NA"
 
-        points = latest_stat_df['points'].mean()
-        totReb = latest_stat_df['totReb'].mean()
-        assists = latest_stat_df['assists'].mean()
-        steals = latest_stat_df['steals'].mean()
-        blocks = latest_stat_df['blocks'].mean()
-        turnovers = latest_stat_df['turnovers'].mean()
+        average_stats = (
+        latest_stat_df['playerId'][0], x["firstName"].item(), x["lastName"].item(), latest_stat_df['teamId'][0],
+        latest_stat_df['pos'][0], latest_stat_df['points'].mean(), latest_stat_df['totReb'].mean(),
+        latest_stat_df['assists'].mean(), latest_stat_df['steals'].mean(), latest_stat_df['blocks'].mean(),
+        latest_stat_df['turnovers'].mean(), ((latest_stat_df['points'].mean() * 1) +
+                                             (latest_stat_df['totReb'].mean() * 1.2) +
+                                             (latest_stat_df['assists'].mean() * 1.5) +
+                                             (latest_stat_df['steals'].mean() * 2) +
+                                             (latest_stat_df['blocks'].mean() * 2) +
+                                             (latest_stat_df['turnovers'].mean() * -1)))
+        average_stats = [str(x) for x in average_stats]
+        mycursor.execute(add_Player, average_stats)
+        average_stats.clear()
 
-        if latest_stat_df['pos'][0] == "":
-            latest_stat_df.at[0, 'pos'] = "NA"
+    # %%
 
-        average_stats = average_stats.append({'playerId': latest_stat_df['playerId'][0],
-                                              'firstName': x["firstName"].item(),
-                                              'lastName': x["lastName"].item(),
-                                              'teamId': latest_stat_df['teamId'][0],
-                                              'pos': latest_stat_df['pos'][0],
-                                              'points': points,
-                                              'totReb': totReb,
-                                              'assists': assists,
-                                              'steals': steals,
-                                              'blocks': blocks,
-                                              'turnovers': turnovers,
-                                              'fantasyPoints': ((points * 1) + (totReb * 1.2) +
-                                                                (assists * 1.5) + (steals * 2) +
-                                                                (blocks * 2) + (turnovers * -1))
-                                              }, ignore_index=True)
-
-    average_stats = average_stats.fillna(0)
-
-    print(average_stats)
-    # print(rapidapi_nba.top_five(average_stats))
-
-    #%%
-    average_stats.to_csv("average_stats.csv", index=False)
-    #%%
-    # create_db.to_mysql(average_stats)
-    #%%
-    finish = time.perf_counter()  # end time
-    print(f"Finished in {round(finish - start, 2)} second(s)")
+    mydb.commit()
