@@ -8,6 +8,7 @@ import requests
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
+    #user="TSU_Student",
     password="TSUFAN2021",
     database="mydatabase"
 )
@@ -97,8 +98,6 @@ if __name__ == "__main__":
         latest_stat_df['turnovers'].fillna(0, inplace=True)
         latest_stat_df['blocks'].fillna(0, inplace=True)
 
-        #     # TODO: Add Player name to columns
-        #     # print(type(latest_stat_df['points'][0]))
         if latest_stat_df['pos'][0] == "":
             latest_stat_df.at[0, 'pos'] = "NA"
         if latest_stat_df['pos'][0] == "":
