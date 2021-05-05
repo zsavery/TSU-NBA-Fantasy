@@ -40,6 +40,7 @@ struct MyResult {
  */
 
 }
+var stats_data =  [MyResult()]
 
 
 class OutterViewController: UIViewController {
@@ -156,6 +157,7 @@ class OutterViewController: UIViewController {
             index+=1
             PlayerStats.append(stat)
         }
+        stats_data = PlayerStats
         
         
     }.resume()
