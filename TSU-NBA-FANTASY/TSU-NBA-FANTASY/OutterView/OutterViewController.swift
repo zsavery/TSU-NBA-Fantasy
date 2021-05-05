@@ -76,7 +76,7 @@ class OutterViewController: UIViewController {
         
         var newtxt: String? = dataAsString
 
-        let wordsToRemove = ["Playerid: ", "First Name: ", "Last Name: ", "TeamID: ", "Pos: ", "Points: ", "Rebounds: ", "Assists: ", "Steals: " , "Blocks: ", "TurnOvers: ", "Fantasy "]
+        let wordsToRemove = ["Playerid: ", "First Name: ", "Last Name: ", "TeamID: ", "Pos: ", "Points: ", "Rebounds: ", "Assists: ", "Steals: " , "Blocks: ", "TurnOvers: ", "Fantasy ", " Jr.", " III", " II", " IV", " Sr."]
         for wordToRemove in wordsToRemove{
             while newtxt!.contains(wordToRemove) {
                 if let range2 = newtxt!.range(of: wordToRemove) {
@@ -86,10 +86,11 @@ class OutterViewController: UIViewController {
         }
 
         newtxt = newtxt!.replacingOccurrences(of: " ", with: ", ")
+        newtxt = newtxt!.replacingOccurrences(of: "<br>", with: "\n")
         newtxt = newtxt!.replacingOccurrences(of: "\n", with: ", ")
         //print("Swap spaces with commas: \n\(newtxt!)")
 
-        let txtArr: [String] = newtxt!.components(separatedBy: ", ")
+        var txtArr: [String] = newtxt!.components(separatedBy: ", ")
 
         //for val in txtArr{
             //print(val)
@@ -102,23 +103,9 @@ class OutterViewController: UIViewController {
         var index = 0
         let keyNum = 12
 
-        struct PlayerStat {
-            var PlayerId: String?
-            var FirstName: String?
-            var LastName: String?
-            var TeamId: String?
-            var Pos: String?
-            var Points: Double = 0
-            var Rebounds: Double = 0
-            var Assists : Double = 0
-            var Steals: Double = 0
-            var Blocks: Double = 0
-            var TurnOvers: Double = 0
-            var FantasyPoints: Double = 0
-        }
         var stat = MyResult()
         var PlayerStats = [MyResult()]
-
+        txtArr.removeLast()
         for value in txtArr{
             if(index > (keyNum-1)){
                 index = 0
