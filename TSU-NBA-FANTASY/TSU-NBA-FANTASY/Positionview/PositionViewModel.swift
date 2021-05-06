@@ -6,6 +6,18 @@
 //
 
 import Foundation
+protocol PositionViewModelDelegate {
+    func newPlayerSet()
+}
 class PositionViewModel {
+    var delegate: PositionViewModelDelegate
+    var player:Player! {
+        didSet {
+            self.delegate.newPlayerSet()
+        }
+    }
     
+    init(delegate: PositionViewModelDelegate) {
+        self.delegate = delegate
+    }
 }
