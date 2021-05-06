@@ -55,7 +55,7 @@ extension HomeScreenViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         let player = model.playerData[indexPath.row]
-        fantasyCell.setup(name: player.name, team: player.TeamId, score: "\(player.FantasyPoints)")
+        fantasyCell.setup(name: player.name, team: player.TeamId, score: String(player.FantasyPoints))
         return fantasyCell
     }
     

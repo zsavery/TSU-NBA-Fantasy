@@ -112,13 +112,14 @@ class HomeScreenModel {
                     print("Turnovers: \(stat.Turnovers)")
                 case 11:
                     stat.FantasyPoints = round(Float(val ?? "0") ?? 0)
+                    PlayerStats.append(stat)
                     print("Fantasy Points: \(stat.FantasyPoints)")
                 default:
                     print("Something went wrong!")
                 }
                 //print(stat)
                 index+=1
-                PlayerStats.append(stat)
+                
             }
             self.playerData = PlayerStats
             self.delegate.dataFetched()
