@@ -121,6 +121,7 @@ class HomeScreenModel {
                 index+=1
                 
             }
+            PlayerStats.removeFirst()
             self.playerData = PlayerStats
             self.delegate.dataFetched()
             
